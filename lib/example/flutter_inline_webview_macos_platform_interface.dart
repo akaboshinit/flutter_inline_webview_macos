@@ -8,13 +8,14 @@ abstract class FlutterInlineWebviewMacosPlatform extends PlatformInterface {
 
   static final Object _token = Object();
 
-  static FlutterInlineWebviewMacosPlatform _instance = MethodChannelFlutterInlineWebviewMacos();
+  static FlutterInlineWebviewMacosPlatform _instance =
+      MethodChannelFlutterInlineWebviewMacos();
 
   /// The default instance of [FlutterInlineWebviewMacosPlatform] to use.
   ///
   /// Defaults to [MethodChannelFlutterInlineWebviewMacos].
   static FlutterInlineWebviewMacosPlatform get instance => _instance;
-  
+
   /// Platform-specific implementations should set this with their own
   /// platform-specific class that extends [FlutterInlineWebviewMacosPlatform] when
   /// they register themselves.

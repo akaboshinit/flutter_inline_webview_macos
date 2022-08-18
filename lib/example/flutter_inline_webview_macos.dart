@@ -1,4 +1,3 @@
-
 import 'flutter_inline_webview_macos_platform_interface.dart';
 
 class FlutterInlineWebviewMacos {

@@ -4,4 +4,8 @@ initial release.
 
 ## 0.0.2
 
-fix's
+micro fix's
+
+## 0.0.3
+
+add example

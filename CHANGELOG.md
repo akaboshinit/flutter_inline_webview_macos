@@ -1,11 +1,15 @@
 ## 0.0.1
 
-initial release.
+- Initial release
 
 ## 0.0.2
 
-micro fix's
+- Fix micro bugs
 
 ## 0.0.3
 
-add example
+- Add example
+
+## 0.0.4
+
+- Update README.md

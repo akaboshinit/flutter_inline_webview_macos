@@ -29,7 +29,7 @@ public class InAppWebViewMacos: WKWebView,WKNavigationDelegate,WKUIDelegate
   init(frame: CGRect, configuration: WKWebViewConfiguration, channel: FlutterMethodChannel?) {
     super.init(frame: frame, configuration: configuration)
     self.channel = channel
-      navigationDelegate = self
+//      navigationDelegate = self
 //    uiDelegate = self
 //    navigationDelegate = self
   }

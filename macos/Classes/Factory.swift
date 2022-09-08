@@ -24,6 +24,7 @@ public class FlutterWebViewMacosFactory: NSObject, FlutterPlatformViewFactory {
   )
     -> NSView
   {
+      webviewController?.dispose()
       webviewController = FlutterWebViewMacosController(
       registrar: registrar!,
       viewIdentifier: viewId
@@ -31,11 +32,13 @@ public class FlutterWebViewMacosFactory: NSObject, FlutterPlatformViewFactory {
       return webviewController!
   }
     
-    public func createArgsCodec() -> FlutterMessageCodec & NSObjectProtocol {
+    public func createArgsCodec() -> (FlutterMessageCodec & NSObjectProtocol)? {
       return FlutterStandardMessageCodec.sharedInstance()
     }
 
   deinit {
+    webviewController?.dispose()
+    webviewController = nil
     print("FlutterWebViewMacosFactory - dealloc")
   }
 }

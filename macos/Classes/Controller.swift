@@ -42,53 +42,75 @@ public class FlutterWebViewMacosController: NSView {
   }
 
   func create(frame: CGRect) {
-      let semaphore = DispatchSemaphore(value: 0)
-      func setWebView() {
 
-          let configuration = WKWebViewConfiguration()
-          configuration.suppressesIncrementalRendering = false
+      DispatchQueue.global().async {//并行、异步
+          let semaphore = DispatchSemaphore(value: 0)
+          DispatchQueue.main.async {//串行、异步
+              let configuration = WKWebViewConfiguration()
+              configuration.suppressesIncrementalRendering = false
+              var requiresDrawBackgroundFallback = false
+              if #available(OSX 10.14, *) {
+                  configuration.setValue(false, forKey: "sward".reversed() + "background".capitalized) //drawsBackground KVC hack; works but private
 
-          var requiresDrawBackgroundFallback = false
-          if #available(OSX 10.14, *) {
-              configuration.setValue(false, forKey: "sward".reversed() + "background".capitalized) //drawsBackground KVC hack; works but private
+              } else {
+                  requiresDrawBackgroundFallback = true
+              }
+              self.webView = InAppWebViewMacos(
+                frame: frame,
+                configuration: WKWebViewConfiguration(),
+                channel: self.channel!
+              )
 
-          } else {
-              requiresDrawBackgroundFallback = true
+              if #available(macOS 12.0, *) {
+                  self.webView!.underPageBackgroundColor = NSColor.clear
+              }
+              if requiresDrawBackgroundFallback {
+                  self.webView!.setValue(false, forKey: "sward".reversed() + "background".capitalized) //drawsBackground KVC hack; works but private
+              }
+              self.webView!.setValue(false, forKey: "drawsBackground")
+              print("开一条全局队列异步执行任务")
+              self.methodCallDelegate = InAppWebViewMacosMethodHandler(controller: self)
+              self.channel!.setMethodCallHandler(self.methodCallDelegate!.handle)
+              print("在主队列执行刷新界面任务")
+              super.autoresizesSubviews = true
+              super.autoresizingMask = [.height, .width]
+
+              self.webView!.autoresizesSubviews = true
+              self.webView!.autoresizingMask = [.height, .width]
+              super.layer?.backgroundColor = NSColor.red.cgColor
+              super.frame = frame
+              semaphore.signal()
           }
-          webView = InAppWebViewMacos(
-            frame: frame,
-            configuration: WKWebViewConfiguration(),
-            channel: channel!
-          )
-
-          if #available(macOS 12.0, *) {
-              webView!.underPageBackgroundColor = NSColor.clear
-          }
-          if requiresDrawBackgroundFallback {
-              webView!.setValue(false, forKey: "sward".reversed() + "background".capitalized) //drawsBackground KVC hack; works but private
-          }
-          webView!.setValue(false, forKey: "drawsBackground")
-          semaphore.signal()
-      }
-
-      setWebView()
-      semaphore.wait()
-
-      methodCallDelegate = InAppWebViewMacosMethodHandler(controller: self)
-      channel!.setMethodCallHandler(methodCallDelegate!.handle)
-
-      super.autoresizesSubviews = true
-      super.autoresizingMask = [.height, .width]
-
-      webView!.autoresizesSubviews = true
-      webView!.autoresizingMask = [.height, .width]
+          semaphore.wait()
+          DispatchQueue.main.async {//串行、异步
+              super.addSubview(self.webView!)
+              self.webView!.windowCreated = true
+         }
+     }
 
 
-      super.layer?.backgroundColor = NSColor.red.cgColor
-      super.frame = frame
-      super.addSubview(webView!)
 
-      webView!.windowCreated = true
+
+
+
+
+////
+////      let semaphore = DispatchSemaphore(value: 0)
+////      func setWebView() {
+////
+////          semaphore.signal()
+////      }
+//      DispatchQueue.global().async {//并行、异步
+//
+//          setWebView()
+//          semaphore.wait()
+//          DispatchQueue.main.async {//串行、异步
+//
+//          }
+//      }
+
+
+
   }
 
   func changeSize(frame: CGRect) {

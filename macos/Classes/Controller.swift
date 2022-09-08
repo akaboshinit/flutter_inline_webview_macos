@@ -10,6 +10,7 @@ import FlutterMacOS
 import Foundation
 import WebKit
 
+
 public class FlutterWebViewMacosController: NSView {
 
   private weak var registrar: FlutterPluginRegistrar?
@@ -43,12 +44,30 @@ public class FlutterWebViewMacosController: NSView {
   func create(frame: CGRect) {
       let semaphore = DispatchSemaphore(value: 0)
       func setWebView() {
+
+          let configuration = WKWebViewConfiguration()
+          configuration.suppressesIncrementalRendering = false
+
+          var requiresDrawBackgroundFallback = false
+          if #available(OSX 10.14, *) {
+              configuration.setValue(false, forKey: "sward".reversed() + "background".capitalized) //drawsBackground KVC hack; works but private
+
+          } else {
+              requiresDrawBackgroundFallback = true
+          }
           webView = InAppWebViewMacos(
             frame: frame,
             configuration: WKWebViewConfiguration(),
             channel: channel!
           )
 
+          if #available(macOS 12.0, *) {
+              webView!.underPageBackgroundColor = NSColor.clear
+          }
+          if requiresDrawBackgroundFallback {
+              webView!.setValue(false, forKey: "sward".reversed() + "background".capitalized) //drawsBackground KVC hack; works but private
+          }
+          webView!.setValue(false, forKey: "drawsBackground")
           semaphore.signal()
       }
 
@@ -64,6 +83,7 @@ public class FlutterWebViewMacosController: NSView {
       webView!.autoresizesSubviews = true
       webView!.autoresizingMask = [.height, .width]
 
+
       super.layer?.backgroundColor = NSColor.red.cgColor
       super.frame = frame
       super.addSubview(webView!)
@@ -72,8 +92,8 @@ public class FlutterWebViewMacosController: NSView {
   }
 
   func changeSize(frame: CGRect) {
-    webView!.frame = frame
-    super.frame = frame
+      self.webView!.frame = frame
+      self.frame = frame
   }
 
   public func makeInitialLoad(  //params: NSDictionary
@@ -102,6 +122,7 @@ public class FlutterWebViewMacosController: NSView {
     methodCallDelegate?.dispose()
     methodCallDelegate = nil
     webView?.dispose()
+    webView?.removeFromSuperview()
     webView = nil
     super.removeFromSuperview()
   }

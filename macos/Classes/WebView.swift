@@ -8,8 +8,9 @@
 import FlutterMacOS
 import Foundation
 import WebKit
+import AppKit
 
-public class InAppWebViewMacos: WKWebView
+public class InAppWebViewMacos: WKWebView,WKNavigationDelegate,WKUIDelegate
 //, WKUIDelegate, WKNavigationDelegate,
 //  WKScriptMessageHandler
 {
@@ -28,6 +29,7 @@ public class InAppWebViewMacos: WKWebView
   init(frame: CGRect, configuration: WKWebViewConfiguration, channel: FlutterMethodChannel?) {
     super.init(frame: frame, configuration: configuration)
     self.channel = channel
+      navigationDelegate = self
 //    uiDelegate = self
 //    navigationDelegate = self
   }
@@ -65,7 +67,7 @@ public class InAppWebViewMacos: WKWebView
       loadFileURL(url, allowingReadAccessTo: allowingReadAccessTo)
     } else {
       load(urlRequest)
-     
+
     }
   }
 
@@ -113,11 +115,17 @@ public class InAppWebViewMacos: WKWebView
   public func webView(
     _ webView: WKWebView, didStartProvisionalNavigation navigation: WKNavigation!
   ) {
-    print("InAppWebViewMacos: webView \(url)")
+      print("InAppWebViewMacos: webView \(String(describing: url))")
 
     currentOriginalUrl = url
     onLoadStart(url: url?.absoluteString)
   }
+    public func webView(_ webView: WKWebView, didFinish navigation: WKNavigation!) {
+        webView.enclosingScrollView?.backgroundColor = NSColor.clear
+        // 自适应屏幕宽度js
+        let jsString = " var oMeta = document.createElement(\'meta\');  oMeta.content = \'width=\(frame.width), initial-scale=1, user-scalable=0\';  oMeta.name = \'viewport\';  document.getElementsByTagName(\'head\')[0].appendChild(oMeta); ";
+        webView.evaluateJavaScript(jsString)
+    }
 
   public func webView(
     _ view: WKWebView,

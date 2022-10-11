@@ -1,2 +1,5 @@
 export 'example/flutter_inline_webview_macos.dart';
 export 'flutter_inline_webview_macos/flutter_inline_webview_macos.dart';
+export 'package:flutter_inline_webview_macos/flutter_inline_webview_macos.dart';
+export 'package:flutter_inline_webview_macos/flutter_inline_webview_macos/flutter_inline_webview_macos_controller.dart';
+export 'package:flutter_inline_webview_macos/flutter_inline_webview_macos/types.dart';

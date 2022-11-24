@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_inline_webview_macos/flutter_inline_webview_macos/types.dart';
@@ -27,10 +29,9 @@ class InlineWebViewMacOsController {
   late Size _size;
 
   Future<void> _init() async {
-    print("InlineWebviewMacOsController: init");
     _channel.invokeMethod<bool>('create', {
-      'height': _size.height,
-      "width": _size.width,
+      'height': _size.height.round(),
+      "width": _size.width.round(),
     });
 
     //  this.ios = IOSInAppWebViewController(channel: _channel);
@@ -39,9 +40,18 @@ class InlineWebViewMacOsController {
   void changeSize(Size size) {
     _size = size;
     _channel.invokeMethod<void>('changeSize', {
-      'height': _size.height,
-      "width": _size.width,
+      'height': _size.height.round(),
+      "width": _size.width.round(),
     });
+  }
+
+  Future<String?> runJavascript(String javaScript) async {
+    final dynamic result = await _channel
+        .invokeMethod("evaluateJavaScript", {'javaScript': javaScript});
+    if (result is String || result == null) {
+      return result;
+    }
+    return json.encode(result);
   }
 
   void dispose() {
@@ -150,14 +160,10 @@ class InlineWebViewMacOsController {
           iosAllowingReadAccessTo.isScheme('file'),
     );
 
-    final args = defaultArgs
-      ..putIfAbsent('urlRequest', () => urlRequest.toMap())
-      ..putIfAbsent(
-        'allowingReadAccessTo',
-        () =>
-            allowingReadAccessTo?.toString() ??
-            iosAllowingReadAccessTo?.toString(),
-      );
+    final args = defaultArgs;
+    args['urlRequest'] = urlRequest.toMap();
+    args['allowingReadAccessTo'] =
+        allowingReadAccessTo?.toString() ?? iosAllowingReadAccessTo?.toString();
     await _channel.invokeMethod<void>('loadUrl', args);
   }
 

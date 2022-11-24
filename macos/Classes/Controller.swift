@@ -61,20 +61,34 @@ public class FlutterWebViewMacosController: NSView {
       super.autoresizesSubviews = true
       super.autoresizingMask = [.height, .width]
 
-      webView!.autoresizesSubviews = true
-      webView!.autoresizingMask = [.height, .width]
-
+      webView?.autoresizesSubviews = true
+      webView?.autoresizingMask = [.height, .width]
       super.layer?.backgroundColor = NSColor.red.cgColor
       super.frame = frame
-      super.addSubview(webView!)
-
-      webView!.windowCreated = true
+      
+      DispatchQueue.main.asyncAfter(deadline: .now() + 1) { [weak self] in
+          if let webView = self?.webView {
+              self?.subviews.insert(webView, at: 0)
+          }
+      }
+      webView?.windowCreated = true
   }
 
   func changeSize(frame: CGRect) {
-    webView!.frame = frame
+    webView?.frame = frame
     super.frame = frame
   }
+
+  func evaluateJavaScript(javaScriptString: String, completer: @escaping FlutterResult) {
+    webView?.evaluateJavaScript(javaScriptString) { result, error in
+      if let error = error {
+        completer(FlutterError(code: "1", message: error.localizedDescription, details: nil))
+        return
+      }
+      completer(result)
+    }
+  }
+
 
   public func makeInitialLoad(  //params: NSDictionary
     )
@@ -91,7 +105,7 @@ public class FlutterWebViewMacosController: NSView {
     // }
 
     //        else if let wId = windowId, let webViewTransport = InAppWebViewMacos.windowWebViews[wId] {
-    //            webView!.load(webViewTransport.request)
+    //            webView?.load(webViewTransport.request)
     //        }
   }
 

@@ -58,7 +58,6 @@ public class InAppWebViewMacos: WKWebView
 
   public func loadUrl(urlRequest: URLRequest, allowingReadAccessTo: URL?) {
     let url = urlRequest.url!
-
     if #available(iOS 9.0, *), let allowingReadAccessTo = allowingReadAccessTo,
       url.scheme == "file", allowingReadAccessTo.scheme == "file"
     {

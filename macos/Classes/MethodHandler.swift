@@ -47,7 +47,14 @@ public class InAppWebViewMacosMethodHandler: FlutterMethodCallDelegate {
       let frame = CGRect(x: 0, y: 0, width: width, height: height)
       controller!.changeSize(frame: frame)
       result("success")
-        
+
+    case "evaluateJavaScript":
+        guard let js = arguments!["javaScript"] as? String else {
+        result(FlutterError(code: "0", message: "param javaScriptString not found", details: nil))
+        return
+      }
+      controller!.evaluateJavaScript(javaScriptString: js, completer: result)
+      result("evaluateJavaScript")
     case "dispose":
       controller!.dispose()
       result("success")

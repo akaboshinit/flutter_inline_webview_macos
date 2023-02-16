@@ -11,6 +11,7 @@ abstract class WebView {
     this.onLoadStop,
     this.onLoadError,
     this.onLoadHttpError,
+    this.onDispose,
   });
 
   ///The window id of a [CreateWindowAction.windowId].
@@ -35,6 +36,8 @@ abstract class WebView {
   ///- iOS ([Official API - WKNavigationDelegate.webView](https://developer.apple.com/documentation/webkit/wknavigationdelegate/1455629-webview))
   final void Function(InlineWebViewMacOsController controller, Uri? url)?
       onLoadStop;
+
+  final void Function()? onDispose;
 
   final void Function(
     InlineWebViewMacOsController controller,

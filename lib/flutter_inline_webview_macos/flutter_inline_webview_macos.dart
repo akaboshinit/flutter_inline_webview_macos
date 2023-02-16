@@ -20,25 +20,29 @@ class InlineWebViewMacOs extends StatefulWidget implements WebView {
     this.onLoadError,
     this.onLoadHttpError,
     this.gestureRecognizers,
+    this.onDispose,
   }) : super(key: key);
 
   @override
   final URLRequest? initialUrlRequest;
 
   @override
-  final void Function(InlineWebViewMacOsController controller)?
+  final void Function(InlineWebViewMacOsController? controller)?
       onWebViewCreated;
 
   @override
-  final void Function(InlineWebViewMacOsController controller, Uri? url)?
+  final void Function(InlineWebViewMacOsController? controller, Uri? url)?
       onLoadStart;
   @override
-  final void Function(InlineWebViewMacOsController controller, Uri? url)?
+  final void Function(InlineWebViewMacOsController? controller, Uri? url)?
       onLoadStop;
 
   @override
+  final void Function()? onDispose;
+
+  @override
   final void Function(
-    InlineWebViewMacOsController controller,
+    InlineWebViewMacOsController? controller,
     Uri? url,
     int code,
     String message,
@@ -46,7 +50,7 @@ class InlineWebViewMacOs extends StatefulWidget implements WebView {
 
   @override
   final void Function(
-    InlineWebViewMacOsController controller,
+    InlineWebViewMacOsController? controller,
     Uri? url,
     int statusCode,
     String description,
@@ -66,7 +70,7 @@ class InlineWebViewMacOs extends StatefulWidget implements WebView {
 }
 
 class _InlineWebViewMacOsState extends State<InlineWebViewMacOs> {
-  late InlineWebViewMacOsController _controller;
+  InlineWebViewMacOsController? _controller;
   final GlobalKey _key = GlobalKey();
   Size? _size;
 
@@ -75,7 +79,7 @@ class _InlineWebViewMacOsState extends State<InlineWebViewMacOs> {
     WidgetsBinding.instance.addPostFrameCallback((_) {
       // size change listen
       if (_size != null && _key.currentContext?.size != _size) {
-        _controller.changeSize(_size!);
+        _controller?.changeSize(_size!);
         _size = _key.currentContext?.size;
       }
     });
@@ -105,13 +109,9 @@ class _InlineWebViewMacOsState extends State<InlineWebViewMacOs> {
   }
 
   @override
-  void didUpdateWidget(InlineWebViewMacOs oldWidget) {
-    super.didUpdateWidget(oldWidget);
-  }
-
-  @override
   void dispose() {
-    _controller.dispose();
+    widget.onDispose?.call();
+    _controller?.dispose();
     super.dispose();
   }
 

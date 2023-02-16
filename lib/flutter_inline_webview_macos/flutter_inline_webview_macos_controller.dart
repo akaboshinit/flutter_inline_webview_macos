@@ -148,7 +148,7 @@ class InlineWebViewMacOsController {
   ///**Supported Platforms/Implementations**:
   ///- Android native WebView ([Official API - WebView.loadUrl](https://developer.android.com/reference/android/webkit/WebView#loadUrl(java.lang.String))). If method is "POST", [Official API - WebView.postUrl](https://developer.android.com/reference/android/webkit/WebView#postUrl(java.lang.String,%20byte[]))
   ///- iOS ([Official API - WKWebView.load](https://developer.apple.com/documentation/webkit/wkwebview/1414954-load). If [allowingReadAccessTo] is used, [Official API - WKWebView.loadFileURL](https://developer.apple.com/documentation/webkit/wkwebview/1414973-loadfileurl))
-  Future<void> loadUrl({
+  Future<bool> loadUrl({
     required URLRequest urlRequest,
     @Deprecated('Use `allowingReadAccessTo` instead')
         Uri? iosAllowingReadAccessTo,
@@ -164,7 +164,12 @@ class InlineWebViewMacOsController {
     args['urlRequest'] = urlRequest.toMap();
     args['allowingReadAccessTo'] =
         allowingReadAccessTo?.toString() ?? iosAllowingReadAccessTo?.toString();
-    await _channel.invokeMethod<void>('loadUrl', args);
+
+    try {
+      return await _channel.invokeMethod<bool>('loadUrl', args) ?? false;
+    } catch (e) {
+      return false;
+    }
   }
 
   ///Reloads the WebView.

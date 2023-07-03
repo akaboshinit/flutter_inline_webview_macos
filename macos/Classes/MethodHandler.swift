@@ -45,11 +45,11 @@ public class InAppWebViewMacosMethodHandler: FlutterMethodCallDelegate {
       let width = arguments!["width"] as! Int
       let frame = CGRect(x: 0, y: 0, width: width, height: height)
       controller!.changeSize(frame: frame)
-      result("success")
+      result(true)
 
     case "dispose":
       controller!.dispose()
-      result("success")
+      result(true)
 
     case "loadUrl":
       let urlRequest = arguments!["urlRequest"] as! [String: Any?]

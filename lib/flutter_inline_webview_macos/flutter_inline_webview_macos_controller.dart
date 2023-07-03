@@ -36,14 +36,14 @@ class InlineWebViewMacOsController {
 
   void changeSize(Size size) {
     _size = size;
-    _channel.invokeMethod<void>('changeSize', {
+    _channel.invokeMethod<bool>('changeSize', {
       'height': _size.height,
       "width": _size.width,
     });
   }
 
   void dispose() {
-    _channel.invokeMethod<void>('dispose');
+    _channel.invokeMethod<bool>('dispose');
   }
 
   Future<dynamic> handleMethod(MethodCall call) async {

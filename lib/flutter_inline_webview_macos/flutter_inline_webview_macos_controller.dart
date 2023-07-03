@@ -1,5 +1,4 @@
 import 'package:flutter/services.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_inline_webview_macos/flutter_inline_webview_macos/types.dart';
 import 'package:flutter_inline_webview_macos/flutter_inline_webview_macos/webview.dart';
 
@@ -27,7 +26,6 @@ class InlineWebViewMacOsController {
   late Size _size;
 
   Future<void> _init() async {
-    print("InlineWebviewMacOsController: init");
     _channel.invokeMethod<bool>('create', {
       'height': _size.height,
       "width": _size.width,
@@ -49,10 +47,7 @@ class InlineWebViewMacOsController {
   }
 
   Future<dynamic> handleMethod(MethodCall call) async {
-    final arguments = call.arguments as String;
-    print(
-      'method:${call.method} InlineWebviewMacOsController arguments:$arguments',
-    );
+    // final arguments = call.arguments as String;
 
     switch (call.method) {
       case 'onLoadStart':
@@ -97,8 +92,8 @@ class InlineWebViewMacOsController {
         }
         break;
       default:
-        print(call.method);
-        print('Error:InAppWebViewController');
+        // print(call.method);
+        // print('Error:InAppWebViewController');
     }
   }
 

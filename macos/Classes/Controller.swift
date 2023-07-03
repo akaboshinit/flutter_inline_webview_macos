@@ -107,7 +107,6 @@ public class FlutterWebViewMacosController: NSView {
   }
 
   deinit {
-    print("FlutterWebViewMacosController - dealloc")
     dispose()
   }
 }

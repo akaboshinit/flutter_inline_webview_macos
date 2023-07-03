@@ -17,7 +17,6 @@ public class InAppWebViewMacos: WKWebView
   public func userContentController(
     _ userContentController: WKUserContentController, didReceive message: WKScriptMessage
   ) {
-    print(message)
   }
 
   var windowId: Int64?
@@ -65,7 +64,7 @@ public class InAppWebViewMacos: WKWebView
       loadFileURL(url, allowingReadAccessTo: allowingReadAccessTo)
     } else {
       load(urlRequest)
-     
+
     }
   }
 
@@ -104,7 +103,6 @@ public class InAppWebViewMacos: WKWebView
       do {
         try FileManager.default.removeItem(atPath: libraryPath)
       } catch {
-        print("can't clear cache")
       }
       URLCache.shared.removeAllCachedResponses()
     }
@@ -113,7 +111,6 @@ public class InAppWebViewMacos: WKWebView
   public func webView(
     _ webView: WKWebView, didStartProvisionalNavigation navigation: WKNavigation!
   ) {
-    print("InAppWebViewMacos: webView \(url)")
 
     currentOriginalUrl = url
     onLoadStart(url: url?.absoluteString)
@@ -124,7 +121,6 @@ public class InAppWebViewMacos: WKWebView
     didFailProvisionalNavigation navigation: WKNavigation!,
     withError error: Error
   ) {
-      print("InAppWebViewMacos: webView create")
     webView(view, didFailProvisionalNavigation: navigation, withError: error)
   }
 
@@ -177,6 +173,5 @@ public class InAppWebViewMacos: WKWebView
 
   deinit {
     dispose()
-    print("InAppWebMacosView - dealloc")
   }
 }

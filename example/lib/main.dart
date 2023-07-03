@@ -1,7 +1,4 @@
-import 'dart:async';
-
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_inline_webview_macos/flutter_inline_webview_macos.dart';
 import 'package:flutter_inline_webview_macos/flutter_inline_webview_macos/flutter_inline_webview_macos_controller.dart';
 import 'package:flutter_inline_webview_macos/flutter_inline_webview_macos/types.dart';
@@ -18,8 +15,6 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-  String _platformVersion = 'Unknown';
-  final _flutterWebviewMacosPlugin = FlutterInlineWebviewMacos();
   bool _hide = false;
 
   InlineWebViewMacOsController? _controller;
@@ -27,23 +22,6 @@ class _MyAppState extends State<MyApp> {
   @override
   void initState() {
     super.initState();
-    initPlatformState();
-  }
-
-  Future<void> initPlatformState() async {
-    String platformVersion;
-    try {
-      platformVersion = await _flutterWebviewMacosPlugin.getPlatformVersion() ??
-          'Unknown platform version';
-    } on PlatformException {
-      platformVersion = 'Failed to get platform version.';
-    }
-
-    if (!mounted) return;
-
-    setState(() {
-      _platformVersion = platformVersion;
-    });
   }
 
   @override
@@ -56,13 +34,11 @@ class _MyAppState extends State<MyApp> {
         body: Center(
           child: Column(
             children: [
-              Text('Running on: $_platformVersion\n'),
               TextButton(
                   onPressed: () {
                     setState(() {
                       _hide = !_hide;
                     });
-                    print("toggle hide!");
                   },
                   child: Text("toggle hide ${!_hide}")),
               _hide

@@ -4,7 +4,7 @@ Flutter plugin for inline display of native WebView on macOS
 
 > [❗️] This package is still a beta.
 
-The producer hasn't thought much about swift, so I need all the help I can get!
+The creator hasn't done much with swift, so I need all the help I can get!
 
 I'm going to write about the current issue.
 Contribute please! [github issues](https://github.com/akaboshinit/flutter_inline_webview_macos/issues)

@@ -62,10 +62,10 @@ class InlineWebViewMacOs extends StatefulWidget implements WebView {
   final Set<Factory<OneSequenceGestureRecognizer>>? gestureRecognizers;
 
   @override
-  _InlineWebViewMacOsState createState() => _InlineWebViewMacOsState();
+  InlineWebViewMacOsState createState() => InlineWebViewMacOsState();
 }
 
-class _InlineWebViewMacOsState extends State<InlineWebViewMacOs> {
+class InlineWebViewMacOsState extends State<InlineWebViewMacOs> {
   late InlineWebViewMacOsController _controller;
   final GlobalKey _key = GlobalKey();
   Size? _size;

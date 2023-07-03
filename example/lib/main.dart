@@ -60,8 +60,8 @@ class _MyAppState extends State<MyApp> {
                             child: const Text('load:"zenn.dev"')),
                         TextButton(
                             onPressed: () async {
-                              final url = await _controller!.getUrl();
-                              print(url);
+                              // final url = await _controller!.getUrl();
+                              // print(url);
                             },
                             child: const Text("getUrl")),
                         InlineWebViewMacOs(

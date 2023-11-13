@@ -1,6 +1,6 @@
 name: flutter_inline_webview_macos
 description: Flutter plugin for inline display of native WebView on macOS
-version: 0.0.5
+version: 0.0.6
 homepage: https://github.com/akaboshinit/flutter_inline_webview_macos
 issue_tracker: https://github.com/akaboshinit/flutter_inline_webview_macos/issues
 

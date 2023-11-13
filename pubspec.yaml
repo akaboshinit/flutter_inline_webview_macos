@@ -2,9 +2,14 @@ name: flutter_inline_webview_macos
 description: Flutter plugin for inline display of native WebView on macOS
 version: 0.0.5
 homepage: https://github.com/akaboshinit/flutter_inline_webview_macos
+issue_tracker: https://github.com/akaboshinit/flutter_inline_webview_macos/issues
+
+screenshots:
+  - description: 'Examples of the splash screen on iOS.'
+    path: ./docs/image/example.png
 
 environment:
-  sdk: ">=2.17.0 <4.0.0"
+  sdk: '>=3.0.5 <4.0.0'
   flutter: ">=3.0.0"
 
 dependencies:
@@ -22,3 +27,4 @@ flutter:
     platforms:
       macos:
         pluginClass: FlutterInlineWebViewMacosPlugin
+

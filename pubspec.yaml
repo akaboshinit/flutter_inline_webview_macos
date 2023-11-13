@@ -6,7 +6,7 @@ issue_tracker: https://github.com/akaboshinit/flutter_inline_webview_macos/issue
 
 screenshots:
   - description: 'Examples of the splash screen on iOS.'
-    path: ./docs/image/example.png
+    path: images/example.png
 
 environment:
   sdk: '>=3.0.5 <4.0.0'

@@ -2,6 +2,11 @@
 
 Flutter plugin for inline display of native WebView on macOS
 
+<p align='center'>
+    <img width="500px" src="https://raw.githubusercontent.com/akaboshinit/flutter_inline_webview_macos/main/docs/image/example.png" />
+</p>
+
+
 > [❗️] This package is still a beta.
 
 The creator hasn't done much with swift, so I need all the help I can get!

@@ -84,7 +84,7 @@ class InlineWebViewMacOsState extends State<InlineWebViewMacOs> {
       return SizedBox(
         height: widget.height,
         width: widget.width,
-        child: UiKitView(
+        child: AppKitView(
           key: _key,
           viewType: 'dev.akaboshinit/flutter_inline_webview_macos',
           onPlatformViewCreated: _onPlatformViewCreated,

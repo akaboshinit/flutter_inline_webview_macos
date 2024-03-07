@@ -66,11 +66,11 @@ class InlineWebViewMacOs extends StatefulWidget implements WebView {
   final Set<Factory<OneSequenceGestureRecognizer>>? gestureRecognizers;
 
   @override
-  _InlineWebViewMacOsState createState() => _InlineWebViewMacOsState();
+  InlineWebViewMacOsState createState() => InlineWebViewMacOsState();
 }
 
-class _InlineWebViewMacOsState extends State<InlineWebViewMacOs> {
-  InlineWebViewMacOsController? _controller;
+class InlineWebViewMacOsState extends State<InlineWebViewMacOs> {
+  late InlineWebViewMacOsController _controller;
   final GlobalKey _key = GlobalKey();
   Size? _size;
 
@@ -79,7 +79,7 @@ class _InlineWebViewMacOsState extends State<InlineWebViewMacOs> {
     WidgetsBinding.instance.addPostFrameCallback((_) {
       // size change listen
       if (_size != null && _key.currentContext?.size != _size) {
-        _controller?.changeSize(_size!);
+        _controller.changeSize(_size!);
         _size = _key.currentContext?.size;
       }
     });
@@ -88,7 +88,7 @@ class _InlineWebViewMacOsState extends State<InlineWebViewMacOs> {
       return SizedBox(
         height: widget.height,
         width: widget.width,
-        child: UiKitView(
+        child: AppKitView(
           key: _key,
           viewType: 'dev.akaboshinit/flutter_inline_webview_macos',
           onPlatformViewCreated: _onPlatformViewCreated,
@@ -111,7 +111,7 @@ class _InlineWebViewMacOsState extends State<InlineWebViewMacOs> {
   @override
   void dispose() {
     widget.onDispose?.call();
-    _controller?.dispose();
+    _controller.dispose();
     super.dispose();
   }
 

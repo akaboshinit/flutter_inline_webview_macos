@@ -29,12 +29,11 @@ public class FlutterWebViewMacosFactory: NSObject, FlutterPlatformViewFactory {
     )
       return webviewController
   }
-    
+
     public func createArgsCodec() -> FlutterMessageCodec & NSObjectProtocol {
       return FlutterStandardMessageCodec.sharedInstance()
     }
 
   deinit {
-    print("FlutterWebViewMacosFactory - dealloc")
   }
 }

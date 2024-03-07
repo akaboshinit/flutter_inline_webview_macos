@@ -1,7 +1,6 @@
 import 'dart:convert';
 
 import 'package:flutter/services.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_inline_webview_macos/flutter_inline_webview_macos/types.dart';
 import 'package:flutter_inline_webview_macos/flutter_inline_webview_macos/webview.dart';
 
@@ -39,7 +38,7 @@ class InlineWebViewMacOsController {
 
   void changeSize(Size size) {
     _size = size;
-    _channel.invokeMethod<void>('changeSize', {
+    _channel.invokeMethod<bool>('changeSize', {
       'height': _size.height.round(),
       "width": _size.width.round(),
     });
@@ -55,14 +54,11 @@ class InlineWebViewMacOsController {
   }
 
   void dispose() {
-    _channel.invokeMethod<void>('dispose');
+    _channel.invokeMethod<bool>('dispose');
   }
 
   Future<dynamic> handleMethod(MethodCall call) async {
-    final arguments = call.arguments as String;
-    print(
-      'method:${call.method} InlineWebviewMacOsController arguments:$arguments',
-    );
+    // final arguments = call.arguments as String;
 
     switch (call.method) {
       case 'onLoadStart':
@@ -107,8 +103,8 @@ class InlineWebViewMacOsController {
         }
         break;
       default:
-        print(call.method);
-        print('Error:InAppWebViewController');
+        // print(call.method);
+        // print('Error:InAppWebViewController');
     }
   }
 

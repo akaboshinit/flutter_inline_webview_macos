@@ -110,18 +110,19 @@ public class FlutterWebViewMacosController: NSView {
   }
 
   func dispose() {
-    webView!.windowCreated = false
-    channel?.setMethodCallHandler(nil)
-    channel = nil
-    methodCallDelegate?.dispose()
-    methodCallDelegate = nil
-    webView?.dispose()
-    webView = nil
-    super.removeFromSuperview()
+    if webView != nil {
+      webView!.windowCreated = false
+      channel?.setMethodCallHandler(nil)
+      channel = nil
+      methodCallDelegate?.dispose()
+      methodCallDelegate = nil
+      webView?.dispose()
+      webView = nil
+      super.removeFromSuperview()
+    }
   }
 
   deinit {
-    print("FlutterWebViewMacosController - dealloc")
     dispose()
   }
 }
